@@ -6,10 +6,10 @@ import (
 	"time"
 )
 
-var myTicker *MyTicker
+var myTickerMgr *MyTickerMgr
 var once sync.Once
 
-type MyTicker struct {
+type MyTickerMgr struct {
 	tickers map[string]*Ticker
 	lock    sync.Mutex
 }
@@ -19,20 +19,19 @@ type MyTicker struct {
  * @param {type}
  * @return:
  */
-func GetInstance() *MyTicker {
+func GetInstance() *MyTickerMgr {
 	once.Do(func() {
-		myTicker = &MyTicker{
+		myTickerMgr = &MyTickerMgr{
 			tickers: make(map[string]*Ticker),
 		}
 	})
-	return myTicker
+	return myTickerMgr
 }
 
-func (this *MyTicker) AddTicker(name string, t time.Duration, fn func()) *Ticker {
+func (this *MyTickerMgr) AddTicker(name string, t time.Duration, fn func()) *Ticker {
 	if _, ok := this.tickers[name]; ok {
 		return nil
 	}
-
 	ticker := newTicker(name, t, fn)
 
 	this.lock.Lock()
@@ -43,7 +42,7 @@ func (this *MyTicker) AddTicker(name string, t time.Duration, fn func()) *Ticker
 	return ticker
 }
 
-func (this *MyTicker) GetTicker(name string) *Ticker {
+func (this *MyTickerMgr) GetTicker(name string) *Ticker {
 	if ticker, ok := this.tickers[name]; ok {
 		return ticker
 	}
@@ -107,6 +106,7 @@ func (this *Ticker) Start() {
 	}()
 }
 
+//后续stop先从tickerMgr拿出ticker
 func (this *Ticker) Stop() {
 	if this.Running {
 		this.Running = false
