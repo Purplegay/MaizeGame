@@ -11,7 +11,7 @@ var once sync.Once
 
 type MyTicker struct {
 	tickers map[string]*Ticker
-	sync.Mutex
+	lock    sync.Mutex
 }
 
 /**
@@ -34,8 +34,11 @@ func (this *MyTicker) AddTicker(name string, t time.Duration, fn func()) *Ticker
 	}
 
 	ticker := newTicker(name, t, fn)
+
+	this.lock.Lock()
+	defer this.lock.Unlock()
 	this.tickers[name] = ticker
-	ticker.start()
+	ticker.Start()
 
 	return ticker
 }
@@ -66,7 +69,7 @@ func newTicker(name string, t time.Duration, fn func()) *Ticker {
 	}
 }
 
-func (this *Ticker) start() {
+func (this *Ticker) Start() {
 	if this.Running {
 		return
 	}
