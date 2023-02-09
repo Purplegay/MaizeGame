@@ -1,16 +1,23 @@
 package entity
 
-import "time"
+import (
+	"rpctest/schema"
+	"time"
+)
 
 type Player struct {
-	Uid      uint64
-	UpdateAt int64
+	Uid      uint64           `bson:"Uid,omitempty" msgpack:"Uid,omitempty"`
+	UpdateAt int64            `bson:"UpdateAt,omitempty" msgpack:"UpdateAt,omitempty"`
+	Units    *schema.UnitList `bson:"Units,omitempty" msgpack:"Units,omitempty"`
 	dirty    bool
 }
 
 func NewPlayer(uid uint64) *Player {
 	p := new(Player)
 	p.Uid = uid
+	p.UpdateAt = time.Now().Unix()
+
+	p.Units = schema.InitUnitList()
 	return p
 }
 
