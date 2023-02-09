@@ -1,0 +1,17 @@
+syntax = "proto3";
+package myproto;
+option go_package = "./myproto";
+
+message SumNumsREQ {
+  int32 nums = 1;
+}
+
+message  SumNumsACK{
+  int32 result = 1;
+}
+
+
+service Sum {
+  // Sends a greeting
+  rpc SayHello (SumNumsREQ) returns (SumNumsACK) {}
+}
