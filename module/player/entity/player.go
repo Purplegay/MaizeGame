@@ -1,4 +1,4 @@
-package entity
+package playerinfo
 
 import (
 	"rpctest/schema"
