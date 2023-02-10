@@ -12,5 +12,13 @@
             "args": [],
             "program": "${workspaceFolder}/dbtools/mymongo/test",
         },
+        {
+            "name": "testExcelToJson",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "args": [],
+            "program": "${workspaceFolder}/resources",
+        },
     ]
 }
