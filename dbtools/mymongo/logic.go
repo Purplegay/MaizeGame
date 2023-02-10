@@ -22,7 +22,7 @@ func (this *MyMongo) GetPlayer(ctx context.Context, colName string, roleId uint6
 	}
 
 	ret, err := collection.Find(ctx, bson.D{
-		{Key: "RoleId", Value: roleId},
+		{Key: "Uid", Value: roleId},
 	})
 	if err != nil {
 		log.Println("GetPlayer Error:", err)
@@ -57,8 +57,7 @@ func (this *MyMongo) SavePlayer(ctx context.Context, colName string, roleId uint
 	}
 
 	upset := true
-
-	_, err := collection.ReplaceOne(ctx, bson.D{{Key: "RoleId", Value: roleId}}, player, &options.ReplaceOptions{Upsert: &upset})
+	_, err := collection.ReplaceOne(ctx, bson.D{{Key: "Uid", Value: roleId}}, player, &options.ReplaceOptions{Upsert: &upset})
 	if err != nil {
 		log.Println("ReplaceOne Error:", err)
 		return false
