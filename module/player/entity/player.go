@@ -21,9 +21,17 @@ func NewPlayer(uid uint64) *Player {
 	return p
 }
 
+//活跃刷新
+func (this *Player) ActiveRefresh() {
+	this.UpdateAt = time.Now().Unix()
+}
+
 func (this *Player) Update() {
 	this.UpdateAt = time.Now().Unix()
 	this.dirty = true
+}
+func (this *Player) GetDirty() bool {
+	return this.dirty
 }
 
 func (this *Player) SetDirty(set bool) {

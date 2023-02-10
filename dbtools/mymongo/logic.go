@@ -12,11 +12,11 @@ import (
 )
 
 //获取玩家
-func (this *MyMongo) GetPlayer(ctx context.Context, colName string, roleId uint64) *playerinfo.Player {
+func (this *MyMongo) GetPlayer(ctx context.Context, roleId uint64) *playerinfo.Player {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	collection := this.GetCollection(colName)
+	collection := this.GetCollection("Player")
 	if collection == nil {
 		log.Println("GetCollection Nil")
 	}
@@ -46,11 +46,11 @@ func (this *MyMongo) GetPlayer(ctx context.Context, colName string, roleId uint6
 }
 
 //保存玩家
-func (this *MyMongo) SavePlayer(ctx context.Context, colName string, roleId uint64, player interface{}) bool {
+func (this *MyMongo) SavePlayer(ctx context.Context, roleId uint64, player interface{}) bool {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	collection := this.GetCollection(colName)
+	collection := this.GetCollection("Player")
 	if collection == nil {
 		log.Println("GetCollection Nil")
 		return false
